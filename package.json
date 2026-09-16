@@ -1,1 +1,1 @@
-{"name":"gt3-motion","private":true,"type":"module","scripts":{"dev":"node scripts/serve.mjs","check":"node --check dist/app.js && node --check dist/viewer.js && node scripts/validate.mjs"},"dependencies":{"three":"0.180.0"}}
+{"name":"gt3-motion","private":true,"type":"module","scripts":{"dev":"node scripts/serve.mjs","check":"node --check dist/app.js && node --check dist/reference-viewer.js && node --check dist/viewer.js && node scripts/validate.mjs"},"dependencies":{"three":"0.180.0"}}

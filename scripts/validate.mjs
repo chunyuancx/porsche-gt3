@@ -20,3 +20,12 @@ for(const path of ['dist/vendor/addons/loaders/DRACOLoader.js','dist/vendor/addo
 const poster=readFileSync('dist/assets/gt3-poster.png');
 if(poster.toString('hex',0,8)!=='89504e470d0a1a0a')throw Error('Invalid PNG poster');
 console.log(`GLB valid: ${model.length} bytes; paint and headlight materials present; local decoder and PNG poster verified.`);
+if(config.renderer!=='blender-sequence')throw Error('The reference sequence must be the active renderer');
+let sequenceBytes=0;
+for(let i=0;i<config.frameCount;i++){
+ const path=join('dist',config.frames,`turn-${String(i).padStart(3,'0')}.webp`);
+ const data=readFileSync(path);
+ if(data.toString('ascii',0,4)!=='RIFF'||data.toString('ascii',8,12)!=='WEBP')throw Error('Invalid sequence frame '+path);
+ sequenceBytes+=data.length;
+}
+console.log(`Reference sequence valid: ${config.frameCount} frames, ${sequenceBytes} bytes.`);

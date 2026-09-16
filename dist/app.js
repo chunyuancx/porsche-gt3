@@ -43,17 +43,19 @@ function update() {
   $('#replay').tabIndex = progress > .2 ? -1 : 0;
   const shouldDock = docking === 1 && !!viewer, key = `${Math.round(target.w)}x${Math.round(target.h)}`;
   if (viewer) {
-    if (!shouldDock || !docked || snapshotKey !== key) { viewer.setActive(true); viewer.setProgress(rotation); }
+    let frameReady;
+    if (!shouldDock || !docked || snapshotKey !== key) { viewer.setActive(true); frameReady = viewer.setProgress(rotation); }
     if (shouldDock && (!docked || snapshotKey !== key)) {
       // Resize first, then exchange the canvas for a still of exactly the same pixels.
-      requestAnimationFrame(() => {
-        if (!viewer || !frame.classList.contains('is-docked')) return;
+      const currentViewer = viewer;
+      Promise.resolve(frameReady).then(() => requestAnimationFrame(() => {
+        if (viewer !== currentViewer || !frame.classList.contains('is-docked')) return;
         still.onload = () => {
           if (!viewer || !docked) return;
           still.hidden = false; frame.classList.add('has-still'); viewer.setActive(false);
         };
         still.src = viewer.snapshot(); snapshotKey = key;
-      });
+      }));
     }
     if (!shouldDock) { still.hidden = true; frame.classList.remove('has-still'); }
   }
@@ -93,7 +95,7 @@ async function load() {
     const response = await fetch(new URL('./assets/model.json', import.meta.url), { signal: controller.signal });
     if (!response.ok) throw new Error('Model configuration unavailable');
     const config = await response.json(); config.src = new URL(config.src, import.meta.url).href;
-    const { createViewer } = await import('./viewer.js');
+    const { createViewer } = await import('./reference-viewer.js');
     if (attempt !== generation) return;
     const instance = await createViewer($('#viewer'), config, {
       signal: controller.signal,
@@ -106,7 +108,7 @@ async function load() {
     if (introPlaying) playIntro(); else { viewer.setLights(0); schedule(); }
   } catch (error) {
     if (attempt !== generation) return;
-    console.warn('Using the car poster.', error); fallback('The 3D view is unavailable. The car preview is ready.');
+    console.warn('Using the car poster.', error); fallback('The animation is unavailable. The car preview is ready.');
   }
 }
 $('#skip-intro').addEventListener('click', finishIntro);

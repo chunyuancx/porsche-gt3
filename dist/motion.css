@@ -10,7 +10,7 @@ button{font:inherit;color:inherit}button:focus-visible{outline:2px solid #deee56
 .car-frame #poster{object-fit:contain;filter:none;mask-image:none}
 .has-model #poster{visibility:hidden}
 #car-still{position:absolute;inset:0;object-fit:contain;filter:none;mask-image:none}
-.has-model::before{display:none}
+.has-model::before{display:block}
 .has-still #viewer{visibility:hidden}
 .car-holder{position:absolute;left:49%;top:34%;width:46%;height:46%;border:1px solid #56594d;border-radius:12px;background:radial-gradient(ellipse at 50% 40%,#42463e,#282c26);opacity:0;pointer-events:none}
 .car-holder span{position:absolute;bottom:20px;left:24px;font-size:10px;letter-spacing:.2em;color:#afb79c}
@@ -36,6 +36,7 @@ body.is-loading{overflow:hidden}
  .stage{min-height:600px}.sequence{height:290svh;min-height:1700px}
  .hero-type,.intro-title{top:17%}.hero-type h1,.intro-gt3{font-size:53vw}
  .hero-copy{bottom:13%}.hero-copy h2{font-size:36px;margin:14px 0 20px}
+ .car-frame #poster{transform:scale(1.6)}
  .motion-note{bottom:4%;font-size:9px;right:6%}.motion-note .line{display:none}.motion-note button{font-size:10px}
  .car-holder{left:6%;top:46%;width:88%;height:36%}
  .settled-copy{top:16%;width:88%}.settled-copy h2{font-size:38px;margin:12px 0 18px}
