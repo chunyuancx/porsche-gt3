@@ -28,7 +28,7 @@ button{font:inherit;color:inherit}button:focus-visible{outline:2px solid #f5f5f5
 .motion-note{z-index:3;bottom:10%}.motion-note p{margin:0 0 6px}.motion-note button{color:#f5f5f5}
 #intro{position:fixed;inset:0;z-index:8;pointer-events:none;color:#e5e5e5}
 .intro-top{position:absolute;left:4%;right:4%;top:30px;display:flex;align-items:center;justify-content:space-between}
-#skip-intro{position:absolute;left:50%;top:var(--skip-top,80%);transform:translateX(-50%);pointer-events:auto;color:#cfcfcf;padding:12px 20px;min-height:44px;white-space:nowrap}
+#skip-intro{position:absolute;left:50%;top:var(--skip-top,80%);transform:translateX(-50%);pointer-events:auto;color:#cfcfcf;padding:12px 20px;min-height:44px;white-space:nowrap;text-decoration:none}
 .intro-title{position:absolute;left:0;right:0;top:14%;text-align:center}
 .intro-title .eyebrow{margin-bottom:0}
 .intro-gt3{font-family:'Barlow Condensed',Impact,sans-serif;font-size:clamp(155px,23vw,340px);line-height:.85;letter-spacing:-.015em;margin:0;color:#363636}
