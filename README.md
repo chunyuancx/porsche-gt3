@@ -1,13 +1,24 @@
 # GT3 motion study
 
-Lightweight static HTML/CSS/JavaScript with an optional, on-demand Three.js WebGL viewer. Run `npm run dev` and open http://127.0.0.1:5173. Run `npm run check` for syntax validation. Authored deployable files are in `dist/`.
+Static HTML/CSS/JavaScript with a local Three.js viewer and the reference-finished 2022 Porsche 911 GT3 (992). The authored, deployable site is `dist/`; no build service or model CDN is required.
 
-The current experience uses a real photographic placeholder. It shrinks on scroll; real rotation becomes available only after supplying the car model. No GT3 model has been generated.
+Run `npm run dev`, then open http://127.0.0.1:5173. Run `npm run check` to validate JavaScript and local assets. Deploy the contents of `dist/` to a static host. Asset and decoder URLs are relative, including under a GitHub Pages repository path.
 
-## Model handoff
+## Experience
 
-Place a licensed GLB at `dist/assets/gt3.glb` and set `src` to `/assets/gt3.glb` in `dist/assets/model.json`. Set rotationY in radians to correct its initial orientation. Model is auto-centered and scaled. Export a standard uncompressed GLB with embedded textures; Draco/KTX2 compressed assets require adding the matching decoder first. Blender exports glTF 2.0 / GLB; it does not run in the browser.
+- The front-view poster appears immediately while the 3 MB GLB loads and its shaders compile.
+- Once ready, the car faces the visitor with its four-point headlights on. They hold for 1.5 seconds, fade over 0.7 seconds, then reveal the page. Skip intro and Escape exit immediately; Replay headlights restarts it.
+- Scrolling rotates the car through about 140 degrees and moves it into the smaller bordered card. A canvas snapshot replaces the live view there. Scrolling back restores the same 3D car.
+- Reduced-motion and data-saver preferences use the static poster without downloading the model. A failed load, lost graphics context, or 25-second timeout releases the intro and offers a retry. The page remains usable without JavaScript.
 
-Suggested starting budgets, to be validated on target devices: 2–5 MB GLB, 50–100k triangles, 1K textures on mobile, few materials. Remove hidden geometry and bake complex materials. Avoid production CAD meshes. The viewer caps pixel ratio, renders on scroll/resize only, pauses offscreen and in hidden tabs, and keeps a photo for loading failures, reduced motion and data saver. Actual performance must be profiled with the final model on real mobile and desktop hardware.
+## Assets and finish
 
-Provide the exact GT3 year/generation and 6–10 daylight reference photos: front, rear, both sides, front/rear three-quarter angles, wheels and wing. Same car/trim and consistent color. An existing accurate licensed model is generally preferable to image-to-3D for this subject. No Higgsfield subscription is required.
+`dist/assets/gt3.glb` is exported from `Porsche_GT3_Paint_Headlights_v2.blend`: graphite clearcoat, carbon panels, bronze wheels, detailed lamps, GT3 rear badge and 4.0 engine-cover marking. The original Blender file remains separate. Draco compression and its matching Three.js 0.180.0 decoder are included locally.
+
+The web viewer translates the Blender finish to browser PBR materials. A generated room environment supplies changing reflections; fine normal variation sits below the smooth clearcoat. Thin tinted covers replace expensive refractive glass. The sub-pixel LED ribs are represented by eight continuous guides at the original lamp positions during the front-facing intro. Geometry proportions are retained.
+
+Edit `dist/assets/model.json` for the GLB path, front orientation and paint/LED material names. Intro timing and scroll ranges are in `dist/app.js`; camera fitting and lighting are in `dist/viewer.js`; responsive frame placement is in `dist/motion.css` and `app.js`.
+
+The renderer caps pixel ratio, draws on changes, pauses offscreen/in hidden tabs and stops rendering when docked. Compression reduces transfer size but does not decimate the source geometry. Profile on target mobile hardware before a production launch.
+
+Model attribution and license links are in `dist/assets/CREDITS.md` and linked from the footer.

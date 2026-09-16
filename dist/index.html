@@ -7,6 +7,7 @@
   <meta name="description" content="An independent Porsche 911 GT3 study. Explore a scroll-driven automotive experience.">
   <title>911 GT3 - Driven by instinct</title>
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./motion.css">
   <script type="importmap">
     {"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/addons/"}}
   </script>
@@ -25,9 +26,11 @@
           <p class="eyebrow">PORSCHE 911</p>
           <h1>GT3<span>.</span></h1>
         </div>
+        <div class="car-holder" id="car-holder" aria-hidden="true"><span>992 / GT3</span></div>
         <div class="car-frame" id="car-frame">
-          <img id="poster" src="./assets/gt3.jpg" alt="Porsche 911 GT3, shown as a photographic preview" fetchpriority="high">
+          <img id="poster" src="./assets/gt3-poster.png" alt="Front view of the graphite Porsche 911 GT3 with its headlights on" fetchpriority="high">
           <div id="viewer" aria-label="3D Porsche GT3 model"></div>
+          <img id="car-still" alt="Rear three-quarter view of the graphite Porsche 911 GT3" hidden>
         </div>
         <div class="hero-copy">
           <p class="eyebrow">ENGINEERED FOR THE FEELING.</p>
@@ -36,7 +39,7 @@
         </div>
         <div class="motion-note">
           <span class="line"></span>
-          <p id="asset-status">Photography preview<br><span>3D model coming next</span></p>
+          <div><p id="asset-status" role="status">Preparing your GT3</p><button id="replay" class="text-button" hidden>Replay headlights ↗</button><button id="retry" class="text-button" hidden>Retry 3D view ↗</button></div>
         </div>
         <div class="scroll-cue">SCROLL TO DISCOVER <span>&darr;</span></div>
         <div class="chapter">01 <span>/</span> 02</div>
@@ -58,10 +61,15 @@
       </div>
     </section>
   </main>
+  <div id="intro" role="dialog" aria-modal="true" aria-label="GT3 headlights introduction" hidden>
+    <div class="intro-top"><span class="wordmark">NINE / ELEVEN</span><button id="skip-intro" class="text-button">Skip intro ↗</button></div>
+    <div class="intro-title"><p class="eyebrow">PORSCHE 911</p><p class="intro-gt3">GT3<span>.</span></p></div>
+    <div class="intro-bottom"><p id="intro-status" role="status">Preparing your GT3…</p><span>THE MOMENT BEFORE THE DRIVE.</span></div>
+  </div>
   <footer>
     <span>NINE / ELEVEN</span>
     <span>Independent design study - Not affiliated with Porsche</span>
-    <a id="photo-credit" href="https://newsroom.porsche.com/en/2021/products/porsche-911-gt3-world-premiere-livestream-23624.html" target="_blank" rel="noreferrer">Photo credit &nearr;</a>
+    <a href="./assets/CREDITS.md">Model credits &nearr;</a>
   </footer>
   <script type="module" src="./app.js"></script>
 </body>

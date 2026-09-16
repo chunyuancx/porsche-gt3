@@ -1,0 +1,49 @@
+[hidden]{display:none!important}
+button{font:inherit;color:inherit}button:focus-visible{outline:2px solid #deee56;outline-offset:6px}
+.stage{--intro-copy:1;--detail-copy:0;min-height:0;background:radial-gradient(ellipse at 50% 42%,#484b47 0,#292c29 48%,#171a18 90%)}
+.sequence{height:280svh}
+.hero-type,.hero-copy,.motion-note,.scroll-cue{opacity:var(--intro-copy)}
+.hero-type{top:14%}.hero-type h1{font-size:clamp(155px,23vw,340px)}
+.settled-copy{opacity:var(--detail-copy);top:32%;left:6%}
+.car-frame{overflow:visible;transform:none!important;will-change:width,height,left,top;isolation:isolate}
+.car-frame::before{content:"";position:absolute;left:22%;right:22%;bottom:13%;height:12%;background:#050605;filter:blur(18px);border-radius:50%;opacity:.7;z-index:-1}
+.car-frame #poster{object-fit:contain;filter:none;mask-image:none}
+.has-model #poster{visibility:hidden}
+#car-still{position:absolute;inset:0;object-fit:contain;filter:none;mask-image:none}
+.has-model::before{display:none}
+.has-still #viewer{visibility:hidden}
+.car-holder{position:absolute;left:49%;top:34%;width:46%;height:46%;border:1px solid #56594d;border-radius:12px;background:radial-gradient(ellipse at 50% 40%,#42463e,#282c26);opacity:0;pointer-events:none}
+.car-holder span{position:absolute;bottom:20px;left:24px;font-size:10px;letter-spacing:.2em;color:#afb79c}
+.text-button{border:0;background:none;padding:6px 0;cursor:pointer;font-size:11px;letter-spacing:.04em;text-decoration:underline;text-underline-offset:5px}
+.motion-note{z-index:3;bottom:10%}.motion-note p{margin:0 0 6px}.motion-note button{color:#deee56}
+#intro{position:fixed;inset:0;z-index:8;pointer-events:none;color:#e4e6dc}
+.intro-top{position:absolute;left:4%;right:4%;top:30px;display:flex;align-items:center;justify-content:space-between}
+.intro-top button{pointer-events:auto;color:#cdd1c5;padding:12px}
+.intro-title{position:absolute;left:0;right:0;top:14%;text-align:center}
+.intro-title .eyebrow{margin-bottom:0}
+.intro-gt3{font-family:'Barlow Condensed',Impact,sans-serif;font-size:clamp(155px,23vw,340px);line-height:.85;letter-spacing:-.015em;margin:0;color:#363d38}
+.intro-gt3 span{color:#deee56}
+.intro-bottom{position:absolute;left:4%;right:4%;bottom:5%;display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.08em}
+.intro-bottom>span{font-size:9px;color:#788274;letter-spacing:.2em}
+body.is-loading{overflow:hidden}
+.is-loading header,.is-loading .hero-type,.is-loading .hero-copy,.is-loading .motion-note,.is-loading .scroll-cue,.is-loading .chapter,.is-loading .settled-copy{visibility:hidden}
+.is-loading .stage{background:radial-gradient(ellipse at 50% 48%,#18201e,#090e0c 68%)}
+.is-loading .car-holder{visibility:hidden}
+.is-loading .hero-type{visibility:visible}
+.is-loading .hero-type h1{color:#363d38}
+.intro-title{display:none}
+@media(max-width:700px){
+ .stage{min-height:600px}.sequence{height:290svh;min-height:1700px}
+ .hero-type,.intro-title{top:17%}.hero-type h1,.intro-gt3{font-size:53vw}
+ .hero-copy{bottom:13%}.hero-copy h2{font-size:36px;margin:14px 0 20px}
+ .motion-note{bottom:4%;font-size:9px;right:6%}.motion-note .line{display:none}.motion-note button{font-size:10px}
+ .car-holder{left:6%;top:46%;width:88%;height:36%}
+ .settled-copy{top:16%;width:88%}.settled-copy h2{font-size:38px;margin:12px 0 18px}
+ .settled-copy>p:last-child{font-size:13px}
+ .intro-top{left:6%;right:4%;top:18px}.intro-bottom{left:6%;right:6%;bottom:7%;font-size:10px}
+ .intro-bottom>span{display:none}
+ .scroll-cue{bottom:15%}.chapter{bottom:5%}
+}
+@media(max-height:650px) and (min-width:701px){.hero-copy h2{font-size:36px}.hero-type,.intro-title{top:13%}.hero-type h1,.intro-gt3{font-size:30vh}.hero-copy{bottom:9%}}
+@media(prefers-reduced-motion:reduce){.sequence{height:100svh;min-height:600px}.car-holder,.settled-copy,.scroll-cue{display:none}.car-frame{will-change:auto}}
+.static-view .sequence{height:100svh;min-height:600px}.static-view .car-holder,.static-view .settled-copy,.static-view .scroll-cue{display:none}.static-view .car-frame{will-change:auto}
