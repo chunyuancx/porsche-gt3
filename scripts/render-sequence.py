@@ -5,7 +5,7 @@ import bpy, math, pathlib, sys
 from mathutils import Vector
 
 project=pathlib.Path(__file__).resolve().parents[1]
-output=project.parent/'gt3_reference'/'sequence-renders'
+output=project.parent/'gt3_reference'/'sequence-clockwise-drl-renders'
 output.mkdir(parents=True,exist_ok=True)
 scene=bpy.data.scenes['GT3 • Reference finish']
 bpy.context.window.scene=scene
@@ -22,15 +22,13 @@ cars=set(bpy.data.collections['GT3 • Car'].all_objects)|set(bpy.data.collectio
 for obj in scene.objects:
     if obj.type in ['MESH','CURVE','FONT'] and obj not in cars:obj.hide_render=True
 led=bpy.data.materials['Headlamp | cool white LED microprisms']
-led.node_tree.nodes['Principled BSDF'].inputs['Emission Strength'].default_value=0
-for obj in bpy.data.collections['Headlamps • LED optical elements'].all_objects:
-    if obj.type=='LIGHT':obj.data.energy=0
+led.node_tree.nodes['Principled BSDF'].inputs['Emission Strength'].default_value=22
 indices=[0,36,72] if 'preview' in sys.argv else range(73)
 for index in indices:
     path=output/f'turn-{index:03}.png'
     if path.exists():continue
     angle=math.radians(140)*index/72
-    camera.location=(-6.8*math.sin(angle),-6.8*math.cos(angle),1.5)
+    camera.location=(6.8*math.sin(angle),-6.8*math.cos(angle),1.5)
     camera.rotation_euler=(Vector((0,0,.6))-camera.location).to_track_quat('-Z','Y').to_euler()
     scene.render.filepath=str(path)
     bpy.ops.render.render(write_still=True)

@@ -16,6 +16,7 @@ function finishIntro() {
   if (returnFocus) $('header .wordmark').focus({ preventScroll: true });
 }
 function openIntro() {
+  window.scrollTo({ top: 0, behavior: 'instant' });
   introPlaying = true; intro.hidden = false; document.body.classList.add('is-loading');
   document.querySelectorAll('header, main, footer').forEach(element => { element.inert = true; });
   $('#skip-intro').focus({ preventScroll: true });

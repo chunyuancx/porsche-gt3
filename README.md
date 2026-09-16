@@ -6,16 +6,17 @@ Run `npm run dev`, then open http://127.0.0.1:5173. Run `npm run check` to valid
 
 ## Experience
 
-- The approved front-view Blender poster appears immediately while the matching lights-off and final frames load. There is no switch to a different browser material treatment.
-- Once ready, the car faces the visitor with its four-point headlights on. They hold for 1.5 seconds, fade over 0.7 seconds, then reveal the page. Skip intro and Escape exit immediately; Replay headlights restarts it.
-- Scrolling advances through 73 camera views spanning 140 degrees, blending adjacent frames, then moves the car into the smaller bordered card. A canvas snapshot replaces the animation there. Scrolling back resumes the sequence.
+- The approved front-view Blender poster appears immediately while the matching DRL-lit and final frames load. There is no switch to a different browser material treatment.
+- Once ready, bright white projector cores and cool optical bloom hold for 1.5 seconds, then fade over 0.7 seconds. The four-point daytime running lights stay on. The interface fades in over 0.9 seconds against the same dark background as the intro. Skip intro and Escape exit immediately; Replay headlights restarts it.
+- Scrolling turns the car clockwise through 73 camera views spanning 140 degrees, blending adjacent frames, then moves the car into the smaller bordered card. A canvas snapshot replaces the animation there. Scrolling back resumes the sequence.
 - Reduced-motion and data-saver preferences use the static poster without downloading the sequence. A failed load or 25-second timeout releases the intro and offers a retry. The page remains usable without JavaScript.
+- The interface uses neutral black, white and gray, with a shared dark intro/hero background. Reserved scrollbar space keeps the car framing unchanged when intro scrolling unlocks.
 
 ## Assets and finish
 
 `dist/assets/sequence/` and the opening poster are rendered from `Porsche_GT3_Paint_Headlights_v2.blend`: graphite clearcoat, carbon panels, bronze wheels, detailed lamps, GT3 rear badge and 4.0 engine-cover marking. The original Blender file remains separate. Its geometry, procedural materials, lighting and color management are preserved in these renders.
 
-The approved poster supplies the headlights-on image; frame zero supplies the lights-off image at exactly the same camera position. Their blend changes the lights without changing the model, framing or material setup. This is a pre-rendered camera path, not a live WebGL model or freely orbitable view. The previous GLB and Three.js implementation remain available in the repository but are not loaded by the page.
+The poster and every sequence frame include the reference daytime running lights. A canvas high-beam bloom is aligned to the front projector positions and fades away after the intro, leaving the rendered DRLs on. The body finish and camera framing remain consistent throughout. This is a pre-rendered camera path, not a live WebGL model or freely orbitable view. The previous GLB and Three.js implementation remain available in the repository but are not loaded by the page.
 
 Edit `dist/assets/model.json` for the poster, frame directory and frame count. Intro timing and scroll ranges are in `dist/app.js`; frame loading and drawing are in `dist/reference-viewer.js`; responsive placement is in `dist/motion.css` and `app.js`.
 

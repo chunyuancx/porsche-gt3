@@ -5,7 +5,7 @@ from concurrent.futures import ProcessPoolExecutor
 import json
 
 project=Path(__file__).resolve().parents[1]
-source=project.parent/'gt3_reference'/'sequence-renders'
+source=project.parent/'gt3_reference'/'sequence-clockwise-drl-renders'
 target=project/'dist'/'assets'/'sequence'
 
 def encode(path):
