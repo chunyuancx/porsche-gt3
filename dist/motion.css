@@ -3,9 +3,10 @@
 html{scrollbar-gutter:stable}
 @property --ui-reveal{syntax:'<number>';inherits:true;initial-value:1}
 :root{background:#090909;--scene-background:radial-gradient(ellipse at 50% 48%,#181818,#090909 68%)}
-body{--ui-reveal:1;transition:--ui-reveal 900ms ease-out}
+body{--ui-reveal:1;transition:--ui-reveal 2200ms ease-in-out 120ms}
 header,.chapter,.details,footer{opacity:var(--ui-reveal)}
-header{justify-content:flex-end}
+header{justify-content:space-between}
+.porsche-crest{display:block;width:45px;height:60px;object-fit:contain}
 .wordmark{display:inline-flex;align-items:center;min-height:44px}
 .wordmark img{display:block;width:180px;height:auto}
 button{font:inherit;color:inherit}button:focus-visible{outline:2px solid #f5f5f5;outline-offset:6px}
@@ -26,8 +27,8 @@ button{font:inherit;color:inherit}button:focus-visible{outline:2px solid #f5f5f5
 .text-button{border:0;background:none;padding:6px 0;cursor:pointer;font-size:11px;letter-spacing:.04em;text-decoration:underline;text-underline-offset:5px}
 .motion-note{z-index:3;bottom:10%}.motion-note p{margin:0 0 6px}.motion-note button{color:#f5f5f5}
 #intro{position:fixed;inset:0;z-index:8;pointer-events:none;color:#e5e5e5}
-.intro-top{position:absolute;left:4%;right:4%;top:30px;display:flex;flex-direction:row-reverse;align-items:center;justify-content:space-between}
-.intro-top button{pointer-events:auto;color:#cfcfcf;padding:12px}
+.intro-top{position:absolute;left:4%;right:4%;top:30px;display:flex;align-items:center;justify-content:space-between}
+.intro-top button{position:absolute;left:0;top:calc(100% + 8px);pointer-events:auto;color:#cfcfcf;padding:8px 0}
 .intro-title{position:absolute;left:0;right:0;top:14%;text-align:center}
 .intro-title .eyebrow{margin-bottom:0}
 .intro-gt3{font-family:'Barlow Condensed',Impact,sans-serif;font-size:clamp(155px,23vw,340px);line-height:.85;letter-spacing:-.015em;margin:0;color:#363636}
@@ -50,6 +51,7 @@ body.is-loading{overflow:hidden;--ui-reveal:0;transition:none}
  .settled-copy{top:16%;width:88%}.settled-copy h2{font-size:38px;margin:12px 0 18px}
  .settled-copy>p:last-child{font-size:13px}
  .wordmark img{width:150px}
+ .porsche-crest{width:36px;height:48px}
  .intro-top{left:6%;right:6%;top:24px}.intro-bottom{left:6%;right:6%;bottom:7%;font-size:10px}
  .intro-bottom>span{display:none}
  .scroll-cue{bottom:15%}.chapter{bottom:5%}

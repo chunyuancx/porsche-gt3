@@ -2,6 +2,8 @@
 
 Porsche wordmark: [official Porsche Design System artwork](https://github.com/porsche-design-system/porsche-design-system/blob/main/packages/components/src/components/wordmark/wordmark.tsx), rendered in white for the navigation. Porsche name and logo are trademarks of Porsche AG.
 
+Porsche crest: [official Porsche Design System asset](https://github.com/porsche-design-system/porsche-design-system/blob/main/packages/assets/projects/crest/src/porsche-crest%403x.webp), displayed with its original colors.
+
 2022 Porsche 911 GT3 (992) by Ddiaz Design.
 Source: https://sketchfab.com/3d-models/2022-porsche-911-gt3-992-ba01afbaf32846e598db315be3507db3
 License: Creative Commons Attribution 4.0, https://creativecommons.org/licenses/by/4.0/

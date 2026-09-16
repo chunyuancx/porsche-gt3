@@ -7,7 +7,7 @@ Run `npm run dev`, then open http://127.0.0.1:5173. Run `npm run check` to valid
 ## Experience
 
 - The approved front-view Blender poster appears immediately while the matching DRL-lit and final frames load. There is no switch to a different browser material treatment.
-- Once ready, bright white projector cores and cool optical bloom hold for 1.5 seconds, then fade over 0.7 seconds. The four-point daytime running lights stay on. The interface fades in over 0.9 seconds against the same dark background as the intro. Skip intro and Escape exit immediately; Replay headlights restarts it.
+- Once ready, bright white projector cores and cool optical bloom hold for 1.5 seconds, then fade over 0.7 seconds. The four-point daytime running lights stay on. After a brief 0.12-second pause, the interface fades in gently over 2.2 seconds against the same dark background as the intro. Skip intro and Escape exit immediately; Replay headlights restarts it.
 - Scrolling turns the car clockwise through 73 camera views spanning 140 degrees, blending adjacent frames, then moves the car into the smaller bordered card. A canvas snapshot replaces the animation there. Scrolling back resumes the sequence.
 - Reduced-motion and data-saver preferences use the static poster without downloading the sequence. A failed load or 25-second timeout releases the intro and offers a retry. The page remains usable without JavaScript.
 - The interface uses neutral black, white and gray, with a shared dark intro/hero background. Reserved scrollbar space keeps the car framing unchanged when intro scrolling unlocks.
