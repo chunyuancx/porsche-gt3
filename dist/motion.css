@@ -5,6 +5,8 @@ html{scrollbar-gutter:stable}
 :root{background:#090909;--scene-background:radial-gradient(ellipse at 50% 48%,#181818,#090909 68%)}
 body{--ui-reveal:1;transition:--ui-reveal 900ms ease-out}
 header,.chapter,.details,footer{opacity:var(--ui-reveal)}
+.wordmark{display:inline-flex;align-items:center;min-height:44px}
+.wordmark img{display:block;width:180px;height:auto}
 button{font:inherit;color:inherit}button:focus-visible{outline:2px solid #f5f5f5;outline-offset:6px}
 .stage{--intro-copy:1;--detail-copy:0;min-height:0;background:var(--scene-background)}
 .sequence{height:280svh}
@@ -46,7 +48,8 @@ body.is-loading{overflow:hidden;--ui-reveal:0;transition:none}
  .car-holder{left:6%;top:46%;width:88%;height:36%}
  .settled-copy{top:16%;width:88%}.settled-copy h2{font-size:38px;margin:12px 0 18px}
  .settled-copy>p:last-child{font-size:13px}
- .intro-top{left:6%;right:4%;top:18px}.intro-bottom{left:6%;right:6%;bottom:7%;font-size:10px}
+ .wordmark img{width:150px}
+ .intro-top{left:6%;right:4%;top:24px}.intro-bottom{left:6%;right:6%;bottom:7%;font-size:10px}
  .intro-bottom>span{display:none}
  .scroll-cue{bottom:15%}.chapter{bottom:5%}
 }
