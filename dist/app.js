@@ -34,6 +34,10 @@ function update() {
   const rotation = smooth(progress / .78), docking = smooth((progress - .53) / .43);
   const w = stage.clientWidth, h = stage.clientHeight;
   const origin = mobile.matches ? { x: 0, y: h * .29, w, h: h * .34 } : { x: w * .10, y: h * .28, w: w * .80, h: h * .54 };
+  // Follow the visible front bumper, accounting for the transparent frame margins.
+  const introScale = Math.min(origin.w / 1280, origin.h / 720) * (mobile.matches ? 1.6 : 1);
+  const bumperBottom = origin.y + origin.h / 2 + (640 - 360) * introScale;
+  intro.style.setProperty('--skip-top', `${Math.min(h - 110, bumperBottom + 24)}px`);
   const target = { x: holder.offsetLeft, y: holder.offsetTop, w: holder.clientWidth, h: holder.clientHeight };
   const mix = (a, b) => a + (b - a) * docking;
   Object.assign(frame.style, { left: `${mix(origin.x, target.x)}px`, top: `${mix(origin.y, target.y)}px`, width: `${mix(origin.w, target.w)}px`, height: `${mix(origin.h, target.h)}px` });
