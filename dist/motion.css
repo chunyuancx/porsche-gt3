@@ -38,8 +38,6 @@ button{font:inherit;color:inherit}button:focus-visible{outline:2px solid #f5f5f5
 body.is-loading{overflow:hidden;--ui-reveal:0;transition:none}
 .is-loading header,.is-loading .hero-type,.is-loading .hero-copy,.is-loading .motion-note,.is-loading .scroll-cue,.is-loading .chapter,.is-loading .settled-copy{visibility:hidden}
 .is-loading .car-holder{visibility:hidden}
-.is-loading .hero-type{visibility:visible;opacity:1}
-.is-loading .hero-type h1{color:#363636}
 .intro-title{display:none}
 @media(max-width:700px){
  .stage{min-height:600px}.sequence{height:290svh;min-height:1700px}
