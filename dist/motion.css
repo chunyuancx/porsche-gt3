@@ -15,7 +15,7 @@ button{font:inherit;color:inherit}button:focus-visible{outline:2px solid #f5f5f5
 .hero-type,.hero-copy,.motion-note,.scroll-cue{opacity:calc(var(--intro-copy) * var(--ui-reveal))}
 .hero-type{top:14%}.hero-type h1{font-size:clamp(155px,23vw,340px)}
 .settled-copy{opacity:calc(var(--detail-copy) * var(--ui-reveal));top:32%;left:6%}
-.car-frame{overflow:visible;transform:none!important;will-change:width,height,left,top;isolation:isolate}
+.car-frame{overflow:visible;transform:scale(calc(var(--hero-scale,1) * var(--approach,1)))!important;will-change:transform,width,height,left,top;isolation:isolate}
 .car-frame::before{content:"";position:absolute;left:22%;right:22%;bottom:13%;height:12%;background:#060606;filter:blur(18px);border-radius:50%;opacity:.7;z-index:-1}
 .car-frame #poster{object-fit:contain;filter:none;mask-image:none}
 .has-model #poster{visibility:hidden}
@@ -42,7 +42,11 @@ body.is-loading{overflow:hidden;--ui-reveal:0;transition:none}
 @media(max-width:700px){
  .stage{min-height:600px}.sequence{height:290svh;min-height:1700px}
  .hero-type,.intro-title{top:17%}.hero-type h1,.intro-gt3{font-size:53vw}
- .hero-copy{bottom:13%}.hero-copy h2{font-size:36px;margin:14px 0 20px}
+ .hero-copy{bottom:13%;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+ .hero-copy .eyebrow,.hero-copy h2{margin:0}
+ .hero-copy h2{font-size:32px}
+ .hero-copy .pill{padding:10px 16px;font-size:12px;gap:24px}
+ .hero-copy .pill span{width:22px;height:22px;line-height:20px}
  .car-frame #poster{transform:scale(1.6)}
  .motion-note{bottom:4%;font-size:9px;right:6%}.motion-note .line{display:none}.motion-note button{font-size:10px}
  .car-holder{left:6%;top:46%;width:88%;height:36%}

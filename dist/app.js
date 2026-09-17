@@ -8,15 +8,21 @@ const smooth = value => { const p = clamp(value); return p * p * (3 - 2 * p); };
 let viewer = null, queued = false, introPlaying = false, docked = false, generation = 0;
 let controller, introRAF, timeout, snapshotKey = '';
 
+function setApproach(value) {
+  frame.style.setProperty('--approach', value);
+  frame.dataset.approach = value.toFixed(3);
+}
 function finishIntro() {
   const returnFocus = intro.contains(document.activeElement);
   introPlaying = false; cancelAnimationFrame(introRAF); viewer?.setLights(0);
+  setApproach(1);
   document.body.classList.remove('is-loading'); intro.hidden = true; schedule();
   document.querySelectorAll('header, main, footer').forEach(element => { element.inert = false; });
   if (returnFocus) $('header .wordmark').focus({ preventScroll: true });
 }
 function openIntro() {
   window.scrollTo({ top: 0, behavior: 'instant' });
+  setApproach(.7);
   introPlaying = true; intro.hidden = false; document.body.classList.add('is-loading');
   document.querySelectorAll('header, main, footer').forEach(element => { element.inert = true; });
   $('#skip-intro').focus({ preventScroll: true });
@@ -33,9 +39,23 @@ function update() {
   const progress = reduced.matches || navigator.connection?.saveData || introPlaying ? 0 : clamp(-sequence.getBoundingClientRect().top / Math.max(1, distance));
   const rotation = smooth(progress / .78), docking = smooth((progress - .53) / .43);
   const w = stage.clientWidth, h = stage.clientHeight;
+  const heroZoom = mobile.matches ? 1.12 : 1.3;
+  // Ease back to the original orbit framing before the car reaches its card.
+  frame.style.setProperty('--hero-scale', 1 + (heroZoom - 1) * (1 - smooth(rotation / .5)));
   const origin = mobile.matches ? { x: 0, y: h * .29, w, h: h * .34 } : { x: w * .10, y: h * .28, w: w * .80, h: h * .54 };
   // Follow the visible front bumper, accounting for the transparent frame margins.
-  const introScale = Math.min(origin.w / 1280, origin.h / 720) * (mobile.matches ? 1.6 : 1);
+  const introScale = Math.min(origin.w / 1280, origin.h / 720) * (mobile.matches ? 1.6 : 1) * heroZoom;
+  if (mobile.matches) {
+    // Reserve real space for text on short phones instead of overlapping the car.
+    const copyTop = $('.hero-copy').offsetTop;
+    origin.y = Math.min(origin.y, copyTop - 24 - origin.h / 2 - (640 - 360) * introScale);
+    const detailBottom = $('.settled-copy').offsetTop + $('.settled-copy').offsetHeight;
+    const cardTop = Math.max(h * .46, detailBottom + 32);
+    holder.style.top = `${cardTop}px`;
+    holder.style.height = `${Math.min(h * .36, Math.max(120, h - cardTop - 70))}px`;
+  } else {
+    holder.style.removeProperty('top'); holder.style.removeProperty('height');
+  }
   const bumperBottom = origin.y + origin.h / 2 + (640 - 360) * introScale;
   intro.style.setProperty('--skip-top', `${Math.min(h - 110, bumperBottom + 64)}px`);
   const target = { x: holder.offsetLeft, y: holder.offsetTop, w: holder.clientWidth, h: holder.clientHeight };
@@ -78,8 +98,9 @@ function playIntro() {
   function tick(now) {
     start ??= now;
     const elapsed = now - start;
-    viewer?.setLights(1 - smooth((elapsed - 1500) / 700));
-    if (elapsed < 2350 && introPlaying) introRAF = requestAnimationFrame(tick); else finishIntro();
+    setApproach(.7 + .3 * smooth(elapsed / 2200));
+    viewer?.setLights(1 - smooth((elapsed - 2350) / 700));
+    if (elapsed < 3200 && introPlaying) introRAF = requestAnimationFrame(tick); else finishIntro();
   }
   introRAF = requestAnimationFrame(tick);
 }
@@ -124,6 +145,7 @@ intro.addEventListener('keydown', event => {
 $('#replay').addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'instant' }); playIntro(); });
 $('#retry').addEventListener('click', load);
 addEventListener('scroll', schedule, { passive: true }); addEventListener('resize', schedule);
+document.fonts.ready.then(schedule);
 reduced.addEventListener('change', () => { generation++; clearTimeout(timeout); finishIntro(); load(); });
 addEventListener('pagehide', () => { generation++; clearTimeout(timeout); cancelAnimationFrame(introRAF); controller?.abort(); viewer?.dispose(); });
 addEventListener('pageshow', event => { if (event.persisted) load(); });
