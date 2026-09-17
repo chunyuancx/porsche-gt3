@@ -6,7 +6,7 @@ const intro = $('#intro'), introStatus = $('#intro-status'), status = $('#asset-
 const clamp = value => Math.min(1, Math.max(0, value));
 const smooth = value => { const p = clamp(value); return p * p * (3 - 2 * p); };
 let viewer = null, queued = false, introPlaying = false, docked = false, generation = 0;
-let controller, introRAF, timeout, snapshotKey = '';
+let controller, introRAF, timeout, introReturnFocus, snapshotKey = '';
 
 function setApproach(value) {
   frame.style.setProperty('--approach', value);
@@ -18,14 +18,15 @@ function finishIntro() {
   setApproach(1);
   document.body.classList.remove('is-loading'); intro.hidden = true; schedule();
   document.querySelectorAll('header, main, footer').forEach(element => { element.inert = false; });
-  if (returnFocus) $('header .wordmark').focus({ preventScroll: true });
+  if (returnFocus && introReturnFocus?.isConnected) introReturnFocus.focus({ preventScroll: true });
 }
 function openIntro() {
+  if (!introPlaying) introReturnFocus = document.activeElement instanceof HTMLElement && document.activeElement !== document.body && !intro.contains(document.activeElement) ? document.activeElement : null;
   window.scrollTo({ top: 0, behavior: 'instant' });
   setApproach(.7);
   introPlaying = true; intro.hidden = false; document.body.classList.add('is-loading');
   document.querySelectorAll('header, main, footer').forEach(element => { element.inert = true; });
-  $('#skip-intro').focus({ preventScroll: true });
+  intro.focus({ preventScroll: true });
 }
 function fallback(message) {
   controller?.abort(); clearTimeout(timeout); viewer?.dispose(); viewer = null;
