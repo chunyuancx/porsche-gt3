@@ -8,7 +8,7 @@ export async function createViewer(container, config, { onProgress, signal } = {
   if (!ctx) { canvas.remove(); throw new Error('Canvas rendering is unavailable'); }
   const blobs = new Map(), decoded = new Map(), decoding = new Map();
   const last = config.frameCount - 1;
-  let poster, progress = 0, lights = 1, exposure = .34, active = true, disposed = false, visible = true;
+  let poster, progress = 0, lights = .4, exposure = .34, active = true, disposed = false, visible = true;
   let latest = 0, width = 0, height = 0, prefetchTimer;
   const frameURL = index => {
     const url = new URL(`${config.frames}turn-${String(index).padStart(3, '0')}.webp`, import.meta.url);

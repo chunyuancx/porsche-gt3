@@ -99,17 +99,19 @@ function playIntro() {
   if (!viewer || reduced.matches) return finishIntro();
   openIntro();
   introStatus.textContent = 'A moment before motion.';
-  viewer.setActive(true); viewer.setProgress(0); viewer.setLights(1, .34);
+  viewer.setActive(true); viewer.setProgress(0); viewer.setLights(.4, .34);
   still.hidden = true; frame.classList.remove('is-docked'); docked = false; update();
   let start;
   function tick(now) {
     start ??= now;
     const elapsed = now - start;
     setApproach(.7 + .3 * smooth(elapsed / 2200));
-    const settling = smooth((elapsed - 650) / 3200);
+    // One deliberate flash: medium beams, a quick rise, then a slow release.
+    const flash = .4 + .6 * smooth((elapsed - 300) / 450);
+    const settling = smooth((elapsed - 950) / 3000);
     setAtmosphere(settling);
-    viewer?.setLights(1 - settling, .34 + .66 * settling);
-    if (elapsed < 4050 && introPlaying) introRAF = requestAnimationFrame(tick); else finishIntro();
+    viewer?.setLights(flash * (1 - settling), .34 + .66 * settling);
+    if (elapsed < 4150 && introPlaying) introRAF = requestAnimationFrame(tick); else finishIntro();
   }
   introRAF = requestAnimationFrame(tick);
 }
