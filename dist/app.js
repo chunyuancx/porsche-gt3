@@ -21,6 +21,7 @@ function finishIntro() {
   introPlaying = false; cancelAnimationFrame(introRAF); viewer?.setLights(0);
   setApproach(1);
   setAtmosphere(1);
+  stage.style.setProperty('--beam-flash', 0);
   document.body.classList.remove('is-loading'); intro.hidden = true; schedule();
   document.querySelectorAll('header, main, footer').forEach(element => { element.inert = false; });
   if (returnFocus && introReturnFocus?.isConnected) introReturnFocus.focus({ preventScroll: true });
@@ -30,6 +31,7 @@ function openIntro() {
   window.scrollTo({ top: 0, behavior: 'instant' });
   setApproach(.7);
   setAtmosphere(0);
+  stage.style.setProperty('--beam-flash', 0);
   introPlaying = true; intro.hidden = false; document.body.classList.add('is-loading');
   document.querySelectorAll('header, main, footer').forEach(element => { element.inert = true; });
   intro.focus({ preventScroll: true });
@@ -64,6 +66,7 @@ function update() {
     holder.style.removeProperty('top'); holder.style.removeProperty('height');
   }
   const bumperBottom = origin.y + origin.h / 2 + (640 - 360) * introScale;
+  stage.style.setProperty('--beam-y', `${origin.y + origin.h / 2 + 45 * introScale}px`);
   intro.style.setProperty('--skip-top', `${Math.min(h - 110, bumperBottom + 64)}px`);
   const target = { x: holder.offsetLeft, y: holder.offsetTop, w: holder.clientWidth, h: holder.clientHeight };
   const mix = (a, b) => a + (b - a) * docking;
@@ -110,6 +113,7 @@ function playIntro() {
     const flash = .4 + .6 * smooth((elapsed - 300) / 450);
     const settling = smooth((elapsed - 950) / 3000);
     setAtmosphere(settling);
+    stage.style.setProperty('--beam-flash', smooth((elapsed - 300) / 450) * Math.pow(1 - settling, 2));
     viewer?.setLights(flash * (1 - settling), .34 + .66 * settling);
     if (elapsed < 4150 && introPlaying) introRAF = requestAnimationFrame(tick); else finishIntro();
   }
