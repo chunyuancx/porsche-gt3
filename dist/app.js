@@ -12,10 +12,15 @@ function setApproach(value) {
   frame.style.setProperty('--approach', value);
   frame.dataset.approach = value.toFixed(3);
 }
+function setAtmosphere(value) {
+  stage.style.setProperty('--intro-darkness', .94 * (1 - value));
+  frame.style.setProperty('--car-exposure', .34 + .66 * value);
+}
 function finishIntro() {
   const returnFocus = intro.contains(document.activeElement);
   introPlaying = false; cancelAnimationFrame(introRAF); viewer?.setLights(0);
   setApproach(1);
+  setAtmosphere(1);
   document.body.classList.remove('is-loading'); intro.hidden = true; schedule();
   document.querySelectorAll('header, main, footer').forEach(element => { element.inert = false; });
   if (returnFocus && introReturnFocus?.isConnected) introReturnFocus.focus({ preventScroll: true });
@@ -24,6 +29,7 @@ function openIntro() {
   if (!introPlaying) introReturnFocus = document.activeElement instanceof HTMLElement && document.activeElement !== document.body && !intro.contains(document.activeElement) ? document.activeElement : null;
   window.scrollTo({ top: 0, behavior: 'instant' });
   setApproach(.7);
+  setAtmosphere(0);
   introPlaying = true; intro.hidden = false; document.body.classList.add('is-loading');
   document.querySelectorAll('header, main, footer').forEach(element => { element.inert = true; });
   intro.focus({ preventScroll: true });
@@ -93,15 +99,17 @@ function playIntro() {
   if (!viewer || reduced.matches) return finishIntro();
   openIntro();
   introStatus.textContent = 'A moment before motion.';
-  viewer.setActive(true); viewer.setProgress(0); viewer.setLights(1);
+  viewer.setActive(true); viewer.setProgress(0); viewer.setLights(1, .34);
   still.hidden = true; frame.classList.remove('is-docked'); docked = false; update();
   let start;
   function tick(now) {
     start ??= now;
     const elapsed = now - start;
     setApproach(.7 + .3 * smooth(elapsed / 2200));
-    viewer?.setLights(1 - smooth((elapsed - 2350) / 700));
-    if (elapsed < 3200 && introPlaying) introRAF = requestAnimationFrame(tick); else finishIntro();
+    const settling = smooth((elapsed - 650) / 3200);
+    setAtmosphere(settling);
+    viewer?.setLights(1 - settling, .34 + .66 * settling);
+    if (elapsed < 4050 && introPlaying) introRAF = requestAnimationFrame(tick); else finishIntro();
   }
   introRAF = requestAnimationFrame(tick);
 }

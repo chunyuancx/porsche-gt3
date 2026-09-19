@@ -10,14 +10,14 @@ header{justify-content:space-between}
 .wordmark{display:inline-flex;align-items:center;min-height:44px}
 .wordmark img{display:block;width:180px;height:auto}
 button{font:inherit;color:inherit}button:focus-visible{outline:2px solid #f5f5f5;outline-offset:6px}
-.stage{--intro-copy:1;--detail-copy:0;min-height:0;background:var(--scene-background)}
+.stage{--intro-copy:1;--detail-copy:0;min-height:0;background:linear-gradient(rgb(0 0 0 / var(--intro-darkness,0)),rgb(0 0 0 / var(--intro-darkness,0))),var(--scene-background)}
 .sequence{height:280svh}
 .hero-type,.hero-copy,.motion-note,.scroll-cue{opacity:calc(var(--intro-copy) * var(--ui-reveal))}
 .hero-type{top:14%}.hero-type h1{font-size:clamp(155px,23vw,340px)}
 .settled-copy{opacity:calc(var(--detail-copy) * var(--ui-reveal));top:32%;left:6%}
 .car-frame{overflow:visible;transform:scale(calc(var(--hero-scale,1) * var(--approach,1)))!important;will-change:transform,width,height,left,top;isolation:isolate}
 .car-frame::before{content:"";position:absolute;left:22%;right:22%;bottom:13%;height:12%;background:#060606;filter:blur(18px);border-radius:50%;opacity:.7;z-index:-1}
-.car-frame #poster{object-fit:contain;filter:none;mask-image:none}
+.car-frame #poster{object-fit:contain;filter:brightness(var(--car-exposure,1));mask-image:none}
 .has-model #poster{visibility:hidden}
 #car-still{position:absolute;inset:0;object-fit:contain;filter:none;mask-image:none}
 .has-model::before{display:block}

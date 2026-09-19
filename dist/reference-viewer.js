@@ -8,7 +8,7 @@ export async function createViewer(container, config, { onProgress, signal } = {
   if (!ctx) { canvas.remove(); throw new Error('Canvas rendering is unavailable'); }
   const blobs = new Map(), decoded = new Map(), decoding = new Map();
   const last = config.frameCount - 1;
-  let poster, progress = 0, lights = 1, active = true, disposed = false, visible = true;
+  let poster, progress = 0, lights = 1, exposure = .34, active = true, disposed = false, visible = true;
   let latest = 0, width = 0, height = 0, prefetchTimer;
   const frameURL = index => {
     const url = new URL(`${config.frames}turn-${String(index).padStart(3, '0')}.webp`, import.meta.url);
@@ -68,22 +68,22 @@ export async function createViewer(container, config, { onProgress, signal } = {
     ctx.globalAlpha = lights; ctx.globalCompositeOperation = 'screen';
     for (const centerX of [408, 871]) {
       const centerY = 405;
-      const halo = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 105);
+      const halo = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 145);
       halo.addColorStop(0, 'rgba(235,249,255,1)');
-      halo.addColorStop(.12, 'rgba(208,240,255,.95)');
-      halo.addColorStop(.28, 'rgba(158,218,255,.5)');
-      halo.addColorStop(.58, 'rgba(102,183,255,.13)');
+      halo.addColorStop(.16, 'rgba(230,246,255,.98)');
+      halo.addColorStop(.38, 'rgba(186,225,255,.6)');
+      halo.addColorStop(.7, 'rgba(132,196,255,.16)');
       halo.addColorStop(1, 'rgba(102,183,255,0)');
       ctx.fillStyle = halo;
-      ctx.fillRect(centerX - 105, centerY - 105, 210, 210);
-      const streak = ctx.createLinearGradient(centerX - 115, 0, centerX + 115, 0);
+      ctx.fillRect(centerX - 145, centerY - 145, 290, 290);
+      const streak = ctx.createLinearGradient(centerX - 160, 0, centerX + 160, 0);
       streak.addColorStop(0, 'rgba(175,226,255,0)');
-      streak.addColorStop(.5, 'rgba(228,247,255,.8)');
+      streak.addColorStop(.5, 'rgba(240,251,255,.95)');
       streak.addColorStop(1, 'rgba(175,226,255,0)');
       ctx.fillStyle = streak;
-      ctx.fillRect(centerX - 115, centerY - .8, 230, 1.6);
+      ctx.fillRect(centerX - 160, centerY - 1.2, 320, 2.4);
       ctx.fillStyle = '#f4fcff';
-      ctx.beginPath(); ctx.ellipse(centerX, centerY, 9, 6, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(centerX, centerY, 17, 11, 0, 0, Math.PI * 2); ctx.fill();
     }
     ctx.restore();
   }
@@ -92,6 +92,8 @@ export async function createViewer(container, config, { onProgress, signal } = {
     const position = progress * last, low = Math.floor(position), high = Math.ceil(position);
     const first = decoded.get(low), second = decoded.get(high);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Lift the body out of darkness independently of the bright optical bloom.
+    ctx.filter = exposure === 1 ? 'none' : `brightness(${exposure})`;
     if (first) {
       paint(first);
       if (second && high !== low) paint(second, position - low);
@@ -100,6 +102,7 @@ export async function createViewer(container, config, { onProgress, signal } = {
       paint(decoded.get(nearest) || poster);
     }
     ctx.globalAlpha = 1;
+    ctx.filter = 'none';
     if (progress === 0 && lights > 0) highBeams();
   }
   function resize() {
@@ -154,7 +157,13 @@ export async function createViewer(container, config, { onProgress, signal } = {
         if (request === latest) draw();
       }).catch(error => { if (error.name !== 'AbortError') console.warn('Keeping the nearest car frame.', error); });
     },
-    setLights(value) { lights = value; container.dataset.lights = value.toFixed(3); draw(); },
+    setLights(value, bodyExposure = 1) {
+      lights = Math.max(0, Math.min(1, value));
+      exposure = Math.max(0, Math.min(1, bodyExposure));
+      container.dataset.lights = lights.toFixed(3);
+      container.dataset.exposure = exposure.toFixed(3);
+      draw();
+    },
     setActive(value) { active = value; if (value) { resize(); draw(); } },
     snapshot() { resize(); draw(true); return canvas.toDataURL('image/png'); },
     dispose,
